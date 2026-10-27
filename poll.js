@@ -9,5 +9,5 @@ export function vote(poll,user,index){
   if(previous!==undefined)poll.counts[previous]--;
   poll.voters.set(user,index);poll.counts[index]++;return true;
 }
-export function publicPoll(poll){if(!poll)return null;const {voters,...rest}=poll;return {...rest,total:voters.size};}
+export function publicPoll(poll){if(!poll)return null;const {voters,...rest}=poll;return {...rest,total:voters.size,simulatedCount:[...voters.keys()].filter(x=>x.startsWith('demo:')).length};}
 export function parseVote(line){const m=line.match(/^@([^ ]+) :[^ ]+ PRIVMSG #[^ ]+ :!vote\s+([1-4])\s*$/i);if(!m)return null;const tags=Object.fromEntries(m[1].split(';').map(x=>x.split('=')));return tags['user-id']?{user:tags['user-id'],index:Number(m[2])-1}:null;}
