@@ -1,0 +1,5 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {createPoll,vote,publicPoll,parseVote} from '../poll.js';
+test('votes are unique per viewer and changing a vote moves the count',()=>{const p=createPoll('Next topic?',['DNS','TLS']);assert.equal(vote(p,'1',0),true);assert.equal(vote(p,'1',0),false);vote(p,'1',1);assert.deepEqual(publicPoll(p).counts,[0,1]);assert.equal(publicPoll(p).total,1);assert.equal('voters' in publicPoll(p),false);});
+test('closed polls and invalid choices cannot change totals',()=>{const p=createPoll('Q',['A','B']);assert.equal(vote(p,'a',9),false);p.open=false;assert.equal(vote(p,'a',0),false);assert.equal(publicPoll(p).total,0);});
+test('only tagged Twitch vote commands count',()=>{assert.deepEqual(parseVote('@user-id=123;display-name=Example :example!e@e PRIVMSG #demo :!vote 2'),{user:'123',index:1});assert.equal(parseVote('PING :tmi.twitch.tv'),null);assert.equal(parseVote('@user-id=123 :x PRIVMSG #demo :hello !vote 2'),null);});
+test('validates poll input',()=>{assert.throws(()=>createPoll('', ['A','B']));assert.throws(()=>createPoll('Q',['A']));});
