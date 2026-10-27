@@ -25,7 +25,7 @@ Open the **private studio URL** printed in the terminal. Its randomly generated 
 - Browser heartbeats measure application round-trip time, **not Twitch video latency or internet packet loss**.
 - WebSocket ping/pong detects dead clients. Browser and Twitch connections reconnect with bounded exponential backoff.
 - Twitch chat is read-only; the app does not post messages or request moderation privileges.
-- Anonymous chat reception was verified against the `twitchdev` channel during development. Twitch officially documents authenticated IRC. For channels/environments requiring authentication, set `TWITCH_USERNAME` and `TWITCH_OAUTH_TOKEN` in the process environment before starting; use a Twitch user access token with the relevant chat scopes. Never commit a token. See https://dev.twitch.tv/docs/chat/irc/.
+- An anonymous read-only chat connection was verified against the `twitchdev` channel during development. Twitch officially documents authenticated IRC. For channels/environments requiring authentication, set `TWITCH_USERNAME` and `TWITCH_OAUTH_TOKEN` in the process environment before starting; use a Twitch user access token with the relevant chat scopes. Never commit a token. See https://dev.twitch.tv/docs/chat/irc/.
 
 ## Security and limitations
 
