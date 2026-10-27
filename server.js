@@ -9,7 +9,7 @@ const clients=new Map();
 function state(){return {poll:publicPoll(poll),channel,status,chatVotes,clients:clients.size,uptime:Math.round(process.uptime())};}
 function broadcast(){for(const c of clients.keys())if(c.readyState===1)c.send(JSON.stringify({type:'state',...state()}));}
 function connect(name){
- clearTimeout(reconnectTimer); if(twitch){twitch.removeAllListeners();twitch.close();} channel=name;attempt=0;join();
+ clearTimeout(reconnectTimer); if(twitch){twitch.removeAllListeners();twitch.on('error',()=>{});twitch.close();} channel=name;attempt=0;join();
 }
 function join(){
  status='Connecting';broadcast();const current=new WebSocket('wss://irc-ws.chat.twitch.tv:443');twitch=current;
@@ -27,7 +27,7 @@ const server=http.createServer(async(req,res)=>{
   try{let body='';for await(const chunk of req){body+=chunk;if(body.length>4096)throw Error('Request too large');}const data=JSON.parse(body||'{}');
    if(url.pathname==='/api/poll')poll=createPoll(data.question,data.options);
    else if(url.pathname==='/api/close'){if(poll)poll.open=false;}
-   else if(url.pathname==='/api/disconnect'){clearTimeout(reconnectTimer);if(twitch){twitch.removeAllListeners();twitch.close();twitch=null;}channel='';status='Not connected';}
+   else if(url.pathname==='/api/disconnect'){clearTimeout(reconnectTimer);if(twitch){twitch.removeAllListeners();twitch.on('error',()=>{});twitch.close();twitch=null;}channel='';status='Not connected';}
    else if(url.pathname==='/api/connect'){if(!/^[a-zA-Z0-9_]{3,25}$/.test(data.channel||''))throw Error('Enter a valid Twitch channel name.');connect(data.channel.toLowerCase());}
    else if(url.pathname==='/api/demo-vote'){if(!vote(poll,'demo:'+randomBytes(5).toString('hex'),data.index))throw Error('Open a poll first.');}
    else{res.writeHead(404);return res.end();}broadcast();res.setHeader('Content-Type','application/json');res.end(JSON.stringify(state()));
@@ -39,5 +39,5 @@ const server=http.createServer(async(req,res)=>{
 });
 const wss=new WebSocketServer({server,maxPayload:1024});
 const heartbeat=setInterval(()=>{for(const ws of clients.keys()){if(!clients.get(ws)){ws.terminate();continue;}clients.set(ws,false);ws.ping();}},15000);heartbeat.unref();
-wss.on('connection',(ws,req)=>{const origin=req.headers.origin;if(origin&&origin!==`http://${req.headers.host}`){ws.close(1008,'Invalid origin');return;}clients.set(ws,true);ws.on('pong',()=>clients.set(ws,true));ws.send(JSON.stringify({type:'state',...state()}));ws.on('message',data=>{try{const m=JSON.parse(data);if(m.type==='ping')ws.send(JSON.stringify({type:'pong',sent:m.sent}));}catch{}});ws.on('close',()=>{clients.delete(ws);broadcast();});broadcast();});
+wss.on('connection',(ws,req)=>{const origin=req.headers.origin;if(origin&&origin!==`http://${req.headers.host}`){ws.close(1008,'Invalid origin');return;}ws.on('error',()=>{});clients.set(ws,true);ws.on('pong',()=>clients.set(ws,true));ws.send(JSON.stringify({type:'state',...state()}));ws.on('message',data=>{try{const m=JSON.parse(data);if(m.type==='ping')ws.send(JSON.stringify({type:'pong',sent:m.sent}));}catch{}});ws.on('close',()=>{clients.delete(ws);broadcast();});broadcast();});
 server.listen(port,'127.0.0.1',()=>console.log(`StreamPulse studio: http://127.0.0.1:${port}/#${token}\nOBS overlay: http://127.0.0.1:${port}/overlay`));
