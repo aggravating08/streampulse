@@ -18,7 +18,7 @@ Node.js, the ws library, HTTP, Twitch IRC-over-WebSocket, HTML, CSS and browser 
 
 ## Honest validation status
 
-Local polling, simulated voting, overlay broadcasts and heartbeat messages are tested. Read-only Twitch chat connection was verified against twitchdev. A real viewer vote on the team's channel and actual OBS-to-Twitch broadcast are still required before claiming complete Twitch demonstration.
+Local polling, simulated voting, overlay broadcasts and heartbeat messages are tested. Read-only Twitch chat connection was verified against twitchdev. Real Twitch chat voting was verified on asiyaali08: !vote 1 counted once, !vote 2 moved that same viewer to the second option without increasing the total, and !vote 3 after closing the poll left results unchanged. Actual broadcast footage is still required before claiming a complete Twitch demonstration.
 
 ## Under-three-minute video plan
 
