@@ -39,7 +39,7 @@ The app can run without external fonts; optional Google Fonts have system fallba
 npm test
 ```
 
-Tests cover unique and changed votes, closed polls, malformed inputs, IRC command parsing, HTTP authorization, WebSocket broadcasts and heartbeat round-trip messages. Real chat votes, vote changes and closed-poll rejection were verified on asiyaali08. An actual Twitch broadcast must still be recorded before submitting.
+Tests cover unique and changed votes, closed polls, malformed inputs, IRC command parsing, HTTP authorization, WebSocket broadcasts and heartbeat round-trip messages. Real chat votes, vote changes and closed-poll rejection were verified on asiyaali08. A live 720p Twitch broadcast of the browser overlay was verified and captured on asiyaali08 using FFmpeg. OBS itself was not used for this test.
 
 ## Hackathon evidence
 

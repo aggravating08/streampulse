@@ -1,3 +1,145 @@
-<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>StreamPulse · Live studio</title><link rel="stylesheet" href="/style.css"><body><aside><a class="brand" href="/">◈ StreamPulse</a><span class="eyebrow">CREATOR TOOLKIT</span><a class="nav active" href="/">◉ Live studio</a><a class="nav" href="/overlay" target="_blank">▣ Stream overlay ↗</a><div class="aside-bottom"><span class="dot"></span> Local-first studio<br><small>Built by Asiya Ali & Taaha Younas</small></div></aside><main><header><div><span class="eyebrow">YOUR COMMUNITY, IN SYNC</span><h1>Live studio<span class="accent">.</span></h1><p>Turn your viewers into part of the show.</p></div><a class="button secondary" href="/overlay" target="_blank">Preview overlay ↗</a></header><section class="stats"><article><span>TWITCH CONNECTION</span><strong id="twitch-status">Not connected</strong><small id="channel-status">Connect a channel to listen for votes</small></article><article><span>APP ROUND-TRIP</span><strong id="rtt">— <em>ms</em></strong><small>Browser ↔ local server · not video latency</small></article><article><span>CONNECTED CLIENTS</span><strong id="clients">0</strong><small>Studio and overlay WebSocket sessions</small></article></section><div class="columns"><section class="card"><div class="card-head"><span class="eyebrow">01 / AUDIENCE PARTICIPATION</span><span class="pill" id="poll-status">READY TO GO</span></div><h2>Ask the room.</h2><p>Create a poll. Viewers type <code>!vote 1</code> in Twitch chat.</p><form id="poll-form"><label for="question">Your question</label><input id="question" maxlength="140" value="What should we explore next?" required><label for="options">Answer options <small>One per line · 2–4 options</small></label><textarea id="options" rows="4" required>How DNS works
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><title>StreamPulse · Live studio</title
+  ><link rel="stylesheet" href="/style.css" />
+  <body>
+    <aside>
+      <a class="brand" href="/">◈ StreamPulse</a
+      ><span class="eyebrow">CREATOR TOOLKIT</span
+      ><a class="nav active" href="/">◉ Live studio</a
+      ><a class="nav" href="/overlay" target="_blank">▣ Stream overlay ↗</a>
+      <div class="aside-bottom">
+        <span class="dot"></span> Local-first studio<br /><small
+          >Built by Asiya Ali & Taaha Younas</small
+        >
+      </div>
+    </aside>
+    <main>
+      <header>
+        <div>
+          <span class="eyebrow">YOUR COMMUNITY, IN SYNC</span>
+          <h1>Live studio<span class="accent">.</span></h1>
+          <p>Turn your viewers into part of the show.</p>
+        </div>
+        <a class="button secondary" href="/overlay" target="_blank"
+          >Preview overlay ↗</a
+        >
+      </header>
+      <section class="stats">
+        <article>
+          <span>TWITCH CONNECTION</span
+          ><strong id="twitch-status">Not connected</strong
+          ><small id="channel-status"
+            >Connect a channel to listen for votes</small
+          >
+        </article>
+        <article>
+          <span>APP ROUND-TRIP</span><strong id="rtt">— <em>ms</em></strong
+          ><small>Browser ↔ local server · not video latency</small>
+        </article>
+        <article>
+          <span>CONNECTED CLIENTS</span><strong id="clients">0</strong
+          ><small>Studio and overlay WebSocket sessions</small>
+        </article>
+      </section>
+      <div class="columns">
+        <section class="card">
+          <div class="card-head">
+            <span class="eyebrow">01 / AUDIENCE PARTICIPATION</span
+            ><span class="pill" id="poll-status">READY TO GO</span>
+          </div>
+          <h2>Ask the room.</h2>
+          <p>
+            Create a poll. Viewers type <code>!vote 1</code> in Twitch chat.
+          </p>
+          <form id="poll-form">
+            <label for="question">Your question</label
+            ><input
+              id="question"
+              maxlength="140"
+              value="What should we explore next?"
+              required
+            /><label for="options"
+              >Answer options <small>One per line · 2–4 options</small></label
+            ><textarea id="options" rows="4" required>
+How DNS works
 TLS & secure connections
-WebSocket reconnects</textarea><div class="actions"><button>Launch poll ↗</button><button type="button" class="secondary" id="close-poll">End poll</button></div></form><div class="notice" id="notice" role="status">Your next conversation starts here.</div></section><section class="card results"><div class="card-head"><span class="eyebrow">LIVE RESULTS</span><span class="live"><span class="dot"></span> <span id="socket-status">Connecting</span></span></div><h2 id="result-question">The stage is yours.</h2><p id="total">Launch your first poll to see the votes come in.</p><div id="bars"></div><div class="demo"><span>Test the flow</span><p>Simulated votes are labelled here and included in totals. Launch a fresh poll before going live.</p><div id="demo-buttons"></div></div></section></div><section class="card setup"><div><span class="eyebrow">02 / GO LIVE</span><h2>One channel. One browser source.</h2><p>Connect your Twitch channel, then add the overlay URL as an OBS Browser Source.</p></div><form id="channel-form"><label for="channel">Twitch channel name</label><div class="inline"><input id="channel" placeholder="your_channel" pattern="[a-zA-Z0-9_]{3,25}" required><button>Connect</button><button class="secondary" type="button" id="disconnect">Disconnect</button></div></form><div><label for="overlay-url">OBS Browser Source · 960 × 540</label><div class="inline"><input id="overlay-url" readonly><button class="secondary" id="copy">Copy</button></div></div></section><footer><span>STREAM SMARTER. BUILD TOGETHER.</span><span id="admin-status"></span></footer></main><script src="/app.js"></script></body></html>
+WebSocket reconnects</textarea>
+            <div class="actions">
+              <button>Launch poll ↗</button
+              ><button type="button" class="secondary" id="close-poll">
+                End poll
+              </button>
+            </div>
+          </form>
+          <div class="notice" id="notice" role="status">
+            Your next conversation starts here.
+          </div>
+        </section>
+        <section class="card results">
+          <div class="card-head">
+            <span class="eyebrow">LIVE RESULTS</span
+            ><span class="live"
+              ><span class="dot"></span>
+              <span id="socket-status">Connecting</span></span
+            >
+          </div>
+          <h2 id="result-question">The stage is yours.</h2>
+          <p id="total">Launch your first poll to see the votes come in.</p>
+          <div id="bars"></div>
+          <div class="demo">
+            <span>Test the flow</span>
+            <p>
+              Simulated votes are labelled here and included in totals. Launch a
+              fresh poll before going live.
+            </p>
+            <div id="demo-buttons"></div>
+          </div>
+        </section>
+      </div>
+      <section class="card setup">
+        <div>
+          <span class="eyebrow">02 / GO LIVE</span>
+          <h2>One channel. One browser source.</h2>
+          <p>
+            Connect your Twitch channel, then add the overlay URL as an OBS
+            Browser Source.
+          </p>
+        </div>
+        <form id="channel-form">
+          <label for="channel">Twitch channel name</label>
+          <div class="inline">
+            <input
+              id="channel"
+              placeholder="your_channel"
+              pattern="[a-zA-Z0-9_]{3,25}"
+              required
+            /><button>Connect</button
+            ><button class="secondary" type="button" id="disconnect">
+              Disconnect
+            </button>
+          </div>
+        </form>
+        <div>
+          <label for="overlay-url">OBS Browser Source · 960 × 540</label>
+          <div class="inline">
+            <input id="overlay-url" readonly /><button
+              class="secondary"
+              id="copy"
+            >
+              Copy
+            </button>
+          </div>
+        </div>
+      </section>
+      <footer>
+        <span>STREAM SMARTER. BUILD TOGETHER.</span
+        ><span id="admin-status"></span>
+      </footer>
+    </main>
+    <script src="/app.js"></script>
+  </body>
+</html>

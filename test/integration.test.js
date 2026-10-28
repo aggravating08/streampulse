@@ -1,2 +1,59 @@
-import test from 'node:test';import assert from 'node:assert/strict';import {spawn} from 'node:child_process';import {WebSocket} from 'ws';
-test('server authorises controls and broadcasts poll changes to overlays',async()=>{const proc=spawn(process.execPath,['server.js'],{env:{...process.env,PORT:'4318'}});let ws;try{const output=await new Promise((resolve,reject)=>{proc.stdout.once('data',d=>resolve(d.toString()));proc.once('error',reject);setTimeout(()=>reject(Error('Server startup timeout')),5000).unref();});const token=output.match(/#([a-f0-9]+)/)[1];const base='http://127.0.0.1:4318';let r=await fetch(base+'/api/poll',{method:'POST',body:'{}'});assert.equal(r.status,401);ws=new WebSocket('ws://127.0.0.1:4318');await new Promise(resolve=>ws.once('open',resolve));const update=new Promise(resolve=>ws.on('message',d=>{const s=JSON.parse(d);if(s.poll)resolve(s);}));r=await fetch(base+'/api/poll',{method:'POST',headers:{authorization:'Bearer '+token},body:JSON.stringify({question:'Live?',options:['Yes','No']})});assert.equal(r.status,200);assert.equal((await update).poll.question,'Live?');r=await fetch(base+'/api/poll',{method:'POST',headers:{authorization:'Bearer '+token},body:JSON.stringify({question:'Bad',options:['Only']})});assert.equal(r.status,400);const html=await (await fetch(base+'/overlay')).text();assert.match(html,/CHAT DECIDES/);const pong=new Promise(resolve=>ws.on('message',d=>{const s=JSON.parse(d);if(s.type==='pong')resolve(s);}));ws.send(JSON.stringify({type:'ping',sent:123}));assert.equal((await pong).sent,123);}finally{ws?.terminate();proc.kill();}},{timeout:10000});
+import test from "node:test";
+import assert from "node:assert/strict";
+import { spawn } from "node:child_process";
+import { WebSocket } from "ws";
+test(
+  "server authorises controls and broadcasts poll changes to overlays",
+  async () => {
+    const proc = spawn(process.execPath, ["server.js"], {
+      env: { ...process.env, PORT: "4318" },
+    });
+    let ws;
+    try {
+      const output = await new Promise((resolve, reject) => {
+        proc.stdout.once("data", (d) => resolve(d.toString()));
+        proc.once("error", reject);
+        setTimeout(() => reject(Error("Server startup timeout")), 5000).unref();
+      });
+      const token = output.match(/#([a-f0-9]+)/)[1];
+      const base = "http://127.0.0.1:4318";
+      let r = await fetch(base + "/api/poll", { method: "POST", body: "{}" });
+      assert.equal(r.status, 401);
+      ws = new WebSocket("ws://127.0.0.1:4318");
+      await new Promise((resolve) => ws.once("open", resolve));
+      const update = new Promise((resolve) =>
+        ws.on("message", (d) => {
+          const s = JSON.parse(d);
+          if (s.poll) resolve(s);
+        }),
+      );
+      r = await fetch(base + "/api/poll", {
+        method: "POST",
+        headers: { authorization: "Bearer " + token },
+        body: JSON.stringify({ question: "Live?", options: ["Yes", "No"] }),
+      });
+      assert.equal(r.status, 200);
+      assert.equal((await update).poll.question, "Live?");
+      r = await fetch(base + "/api/poll", {
+        method: "POST",
+        headers: { authorization: "Bearer " + token },
+        body: JSON.stringify({ question: "Bad", options: ["Only"] }),
+      });
+      assert.equal(r.status, 400);
+      const html = await (await fetch(base + "/overlay")).text();
+      assert.match(html, /CHAT DECIDES/);
+      const pong = new Promise((resolve) =>
+        ws.on("message", (d) => {
+          const s = JSON.parse(d);
+          if (s.type === "pong") resolve(s);
+        }),
+      );
+      ws.send(JSON.stringify({ type: "ping", sent: 123 }));
+      assert.equal((await pong).sent, 123);
+    } finally {
+      ws?.terminate();
+      proc.kill();
+    }
+  },
+  { timeout: 10000 },
+);
