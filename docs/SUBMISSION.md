@@ -1,4 +1,12 @@
-# StreamPulse — submission preparation
+# StreamPulse — submitted entry
+
+Submitted to Codex × TwitchCon on 28 October 2026. Devpost displayed “Project submitted!”
+
+Project: https://devpost.com/software/streampulse-jwk5d7
+
+Public 91-second demo: https://www.youtube.com/watch?v=SBq0YpMLI3I
+
+The demo includes actual Twitch playback and a source walkthrough explaining Codex use. Direct Codex-app recording was unavailable; this limitation is disclosed in the entry.
 
 **Team:** Asiya Ali and Taaha Younas. Open to additional frontend, Twitch/OBS and QA teammates.
 
@@ -28,12 +36,8 @@ Local polling, simulated voting, overlay broadcasts and heartbeat messages are t
 - 1:30–2:10: Change one viewer's vote, end the poll, demonstrate the connection display and explain app RTT versus video latency.
 - 2:10–2:40: Show setup, repository and scope; mention in-memory prototype limitations.
 
-## Remaining submission requirements
+## Submission status
 
-- Public YouTube video under 3 minutes with real Twitch operation and Codex build footage.
-- Complete source repository with installation instructions.
-- English description and Codex session ID.
-- Judge-access instructions: clone repo and run locally without a paid service.
-- Final review of entry and confirmation before submission.
+The repository, English description, Codex session ID, public YouTube demo and team eligibility declarations were supplied. Final terms were accepted with the team representative’s explicit authorization. Taaha is listed on the team and team-up requests remain open.
 
 **Deadline:** 3 November 2026, 03:00 Pakistan time (2 November, 14:00 PST).

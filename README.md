@@ -45,6 +45,6 @@ Tests cover unique and changed votes, closed polls, malformed inputs, IRC comman
 
 Built during the event submission period with OpenAI Codex. Codex session: `01a1780b-74ca-7183-a0ea-c332d1c04f6d`.
 
-See `docs/SUBMISSION.md` for the project description and demo script. Do not submit until the required public YouTube video shows the overlay functioning on Twitch and footage of building with Codex.
+See `docs/SUBMISSION.md` for the project description and demo script. Submitted entry: https://devpost.com/software/streampulse-jwk5d7. Public demo: https://www.youtube.com/watch?v=SBq0YpMLI3I. The video includes real Twitch playback and a source walkthrough explaining Codex use; direct Codex-app recording was unavailable and is disclosed in the entry.
 
 MIT license.
